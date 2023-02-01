@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SmartAlert</string>
+    <string-array name="roles">
+        <item>Simple User</item>
+        <item>Civil protection officer</item>
+    </string-array>
 </resources>

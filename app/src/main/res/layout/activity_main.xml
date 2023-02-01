@@ -23,7 +23,6 @@
 
     <EditText
         android:id="@+id/email"
-
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
@@ -55,7 +54,7 @@
         android:layout_width="380dp"
         android:layout_height="70dp"
         android:layout_marginTop="24dp"
-        android:backgroundTint="#0ED689"
+        android:backgroundTint="#FF03DAC5"
         android:text="Login"
         android:textColor="#ffffff"
         android:textSize="26sp"
