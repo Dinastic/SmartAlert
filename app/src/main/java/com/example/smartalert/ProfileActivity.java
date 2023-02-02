@@ -20,14 +20,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class ProfileActivity extends AppCompatActivity {
-
     private FirebaseUser user;
     private DatabaseReference reference;
     private String userId;
-
-
     private Button logout;
-    private Button notify;
+    private Button notify ,check;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +41,8 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         });
-        notify = (Button) findViewById(R.id.GoToNotify) ;
-
+        notify = (Button) findViewById(R.id.GoToNotify);
+        check = (Button) findViewById(R.id.checkNotifications);
         notify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,6 +68,15 @@ public class ProfileActivity extends AppCompatActivity {
                     String email = userProfile.email;
                     String role = userProfile.role;
 
+                    if(role.equals("Simple User")) {
+                        check.setVisibility(View.INVISIBLE);
+                        notify.setVisibility(View.VISIBLE);
+                        }
+                     else {
+                        notify.setVisibility(View.INVISIBLE);
+                        check.setVisibility(View.VISIBLE);
+                    }
+
                     nameTextView.setText(fullName);
                     emailTextView.setText(email);
                     roleTextView.setText(role);
@@ -83,7 +89,5 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this, "not working", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 }

@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView register, forgotPassword;
     private EditText editTextEmail, editTextPassword;
     private Button signIn;
-
+    private FirebaseUser user;
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
 
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         forgotPassword = (TextView) findViewById(R.id.forgotPassword);
         forgotPassword.setOnClickListener(this);
+
     }
 
     @Override
@@ -60,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.signIn:
                 userLogin();
                 break;
-
             case R.id.forgotPassword:
                 startActivity(new Intent(this, ForgotPassword.class));
                 break;
@@ -101,9 +101,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
                     startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-
-
-                }else {
+                }
+                else {
                     Toast.makeText(MainActivity.this, "Failed to login! Please check your credentials", Toast.LENGTH_SHORT).show();
                 }
             }
