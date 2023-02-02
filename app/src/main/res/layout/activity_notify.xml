@@ -6,11 +6,140 @@
     android:layout_height="match_parent"
     tools:context=".NotifyActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+
+
+
+<TextView
+android:fontFamily="sans-serif-black"
+android:id="@+id/banner"
+android:layout_height="wrap_content"
+android:layout_width="match_parent"
+android:text="Notify about current danger"
+android:textAlignment="center"
+android:textSize="30sp"
+android:textStyle="bold"
+app:layout_constraintBaseline_toTopOf="parent"
+app:layout_constraintLeft_toLeftOf="parent"
+app:layout_constraintRight_toRightOf="parent" />
+
+
+
+
+
+
+
+<EditText
+android:id="@+id/comment"
+android:layout_width="380dp"
+android:layout_height="wrap_content"
+android:layout_marginTop="60dp"
+android:ems="10"
+android:hint="Make a comment"
+android:inputType="text"
+android:textSize="24sp"
+app:layout_constraintLeft_toLeftOf="parent"
+app:layout_constraintRight_toRightOf="parent"
+app:layout_constraintTop_toBottomOf="@id/banner"
+    />
+
+
+    <Spinner
+        android:id="@+id/ChooseDanger"
+        android:layout_width="380dp"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="155dp"
-        tools:layout_editor_absoluteY="149dp" />
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Select a possible danger"
+        android:minHeight="48dp"
+        android:textSize="24sp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/comment" />
+
+    <TextView
+        android:id="@+id/locationtext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Current Location"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ChooseDanger" />
+
+    <Button
+android:id="@+id/ConfirmDanger"
+android:layout_width="380dp"
+android:layout_height="70dp"
+android:layout_marginTop="24dp"
+android:backgroundTint="#FF03DAC5"
+android:text="Notify"
+android:textColor="#ffffff"
+android:textSize="26sp"
+android:textStyle="bold"
+app:layout_constraintLeft_toLeftOf="parent"
+app:layout_constraintRight_toRightOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/pictureButton"
+    />
+    <Button
+        android:id="@+id/locationButton"
+        android:layout_width="380dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#FF03DAC5"
+        android:text="Get location"
+        android:textColor="#ffffff"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/locationtext"
+        />
+    <Button
+        android:id="@+id/pictureButton"
+        android:layout_width="380dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#FF03DAC5"
+        android:text="Attach Pic"
+        android:textColor="#ffffff"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        />
+
+<ProgressBar
+android:id="@+id/progressBar"
+style="?android:attr/progressBarStyleLarge"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_centerInParent="true"
+android:visibility="gone"
+tools:ignore="MissingConstraints"
+app:layout_constraintTop_toTopOf="parent"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintLeft_toLeftOf="parent"
+app:layout_constraintRight_toRightOf="parent"
+    />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="106dp"
+        android:layout_height="114dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/locationButton"
+        app:layout_constraintVertical_bias="0.0"
+        tools:srcCompat="@tools:sample/avatars" />
 </androidx.constraintlayout.widget.ConstraintLayout>
