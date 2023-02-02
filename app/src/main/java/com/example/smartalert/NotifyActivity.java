@@ -104,7 +104,7 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
 
                 progressBar.setVisibility(View.VISIBLE);
                 Alert alert = new Alert(comment,time,address,dangerType);
-                reference.setValue(alert).addOnCompleteListener(new OnCompleteListener<Void>() {
+                reference.child(alert.address).setValue(alert).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
