@@ -71,13 +71,6 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
                 && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},123);
         }
-        /*confirmDanger.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getLocation();
-                //notifyDanger();
-            }
-        });*/
     }
 
     public void confirm(View view) {
@@ -131,85 +124,12 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
         }catch(Exception e){
             e.printStackTrace();
         }
-
     }
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
-        /*Toast.makeText(this, ""+location.getLatitude()+","+location.getLongitude(), Toast.LENGTH_SHORT).show();
-        try {
-            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-            String address = addresses.get(0).getAddressLine(0);
 
-            textViewLocation.setText(address);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
     }
-
-    /*public void notifyDanger() {
-
-        if(email.isEmpty()){
-            editTextEmail.setError("Email is required!");
-            editTextEmail.requestFocus();
-            return;
-        }
-
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            editTextEmail.setError("Please provide a valid email!");
-            editTextEmail.requestFocus();
-            return;
-        }
-
-        if(password.isEmpty()){
-            editTextPassword.setError("Password is required!");
-            editTextPassword.requestFocus();
-            return;
-        }
-
-        if(password.length() < 6){
-            editTextPassword.setError("Min password length should be 6 characters!");
-            editTextPassword.requestFocus();
-            return;
-        }
-
-        if(fullName.isEmpty()){
-            editTextFullName.setError("Full Name is required!");
-            editTextFullName.requestFocus();
-            return;
-        }
-        progressBar.setVisibility(View.VISIBLE);
-        mAuth.createUserWithEmailAndPassword(email,password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            User user = new User(fullName,email,role);
-
-                            FirebaseDatabase.getInstance().getReference("Users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                Toast.makeText(RegisterUser.this,"User has been registerd successfully!",Toast.LENGTH_LONG).show();
-                                                progressBar.setVisibility(View.GONE);
-                                            }
-                                            else{
-                                                Toast.makeText(RegisterUser.this, "Failed to register. Try again!", Toast.LENGTH_SHORT).show();
-                                                progressBar.setVisibility(View.GONE);
-                                            }
-                                        }
-                                    });
-                        }
-                        else{
-                            Toast.makeText(RegisterUser.this, "Failed to register.", Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
-                        }
-                    }
-                });
-    }*/
 
     @Override
     public void onLocationChanged(@NonNull List<Location> locations) {

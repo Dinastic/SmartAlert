@@ -38,8 +38,6 @@ public class ProfileActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(ProfileActivity.this, MainActivity.class));
             }
-
-
         });
         notify = (Button) findViewById(R.id.GoToNotify);
         check = (Button) findViewById(R.id.checkNotifications);
@@ -80,12 +78,8 @@ public class ProfileActivity extends AppCompatActivity {
                     nameTextView.setText(fullName);
                     emailTextView.setText(email);
                     roleTextView.setText(role);
-
                 }
             }
-
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(ProfileActivity.this, "not working", Toast.LENGTH_SHORT).show();
