@@ -27,6 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     private Button logout;
+    private Button notify;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,16 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+            }
+
+
+        });
+        notify = (Button) findViewById(R.id.GoToNotify) ;
+
+        notify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfileActivity.this, NotifyActivity.class));
             }
         });
 
