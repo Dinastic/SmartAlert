@@ -48,6 +48,13 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfileActivity.this, checkActivity.class));
+            }
+        });
+
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
         userId = user.getUid();

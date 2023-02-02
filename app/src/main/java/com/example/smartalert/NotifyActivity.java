@@ -54,7 +54,7 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
         reference = database.getReference("Alerts");
 
         textViewLocation = (TextView) findViewById(R.id.locationtext);
-        buttonLocation = (Button) findViewById(R.id.locationButton);
+        //buttonLocation = (Button) findViewById(R.id.locationButton);
         confirmDanger = (Button) findViewById(R.id.confirmDanger);
 
         editTextComment = (EditText) findViewById(R.id.comment);
@@ -74,7 +74,6 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
     }
 
     public void confirm(View view) {
-                Toast.makeText(this, "hi", Toast.LENGTH_SHORT).show();
                 notifyDanger();
     }
 
