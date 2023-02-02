@@ -3,10 +3,10 @@ package com.example.smartalert;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,18 +15,23 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class NotifyActivity extends AppCompatActivity implements LocationListener {
-    Button buttonLocation;
-    TextView textViewLocation;
-    LocationManager locationManager;
+public class NotifyActivity extends AppCompatActivity implements LocationListener, AdapterView.OnItemSelectedListener {
+    private Button buttonLocation,confirmDanger;
+    private TextView textViewLocation;
+    private LocationManager locationManager;
+    private Spinner spinner;
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,18 +39,42 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
 
         textViewLocation = (TextView) findViewById(R.id.locationtext);
         buttonLocation = (Button) findViewById(R.id.locationButton);
+        confirmDanger = (Button) findViewById(R.id.confirmDanger);
+
+        spinner = (Spinner) findViewById(R.id.chooseDanger);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.dangers, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},123);
         }
-        buttonLocation.setOnClickListener(new View.OnClickListener() {
+        confirmDanger.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 getLocation();
+
             }
         });
     }
+
+    /*@Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.confirmDanger:
+
+                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 123);
+                }
+                    getLocation();
+                    break;
+            }
+    }*/
 
     @SuppressLint("MissingPermission")
     private void getLocation() {
@@ -95,5 +124,15 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
     @Override
     public void onProviderDisabled(@NonNull String provider) {
         LocationListener.super.onProviderDisabled(provider);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

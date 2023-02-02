@@ -38,12 +38,11 @@ app:layout_constraintRight_toRightOf="parent" />
         app:layout_constraintTop_toBottomOf="@id/banner" />
 
     <Spinner
-        android:id="@+id/ChooseDanger"
+        android:id="@+id/chooseDanger"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:ems="10"
-        android:hint="Select a possible danger"
         android:minHeight="48dp"
         android:textSize="24sp"
         app:layout_constraintHorizontal_bias="0.483"
@@ -65,22 +64,22 @@ app:layout_constraintRight_toRightOf="parent" />
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ChooseDanger" />
+        app:layout_constraintTop_toBottomOf="@id/chooseDanger" />
 
     <Button
-android:id="@+id/ConfirmDanger"
-android:layout_width="380dp"
-android:layout_height="70dp"
-android:layout_marginTop="24dp"
-android:backgroundTint="#FF03DAC5"
-android:text="Notify"
-android:textColor="#ffffff"
-android:textSize="26sp"
-android:textStyle="bold"
-app:layout_constraintLeft_toLeftOf="parent"
-app:layout_constraintRight_toRightOf="parent"
-app:layout_constraintTop_toBottomOf="@+id/pictureButton"
-    />
+        android:id="@+id/confirmDanger"
+        android:layout_width="380dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#FF03DAC5"
+        android:text="Notify"
+        android:textColor="#ffffff"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pictureButton" />
+
     <Button
         android:id="@+id/locationButton"
         android:layout_width="380dp"

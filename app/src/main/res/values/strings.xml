@@ -4,4 +4,15 @@
         <item>Simple User</item>
         <item>Civil protection officer</item>
     </string-array>
+
+    <string-array name="dangers">
+        <item>Flood</item>
+        <item>Earthquake</item>
+        <item>Fire</item>
+        <item>Tornado</item>
+        <item>Aliens</item>
+        <item>Tsunami</item>
+        <item>Landslide</item>
+        <item>Other</item>
+    </string-array>
 </resources>
