@@ -38,7 +38,7 @@ import java.util.Locale;
 
 public class NotifyActivity extends AppCompatActivity implements LocationListener, AdapterView.OnItemSelectedListener {
     private FirebaseDatabase database;
-    private DatabaseReference reference;
+    private DatabaseReference reference,reference2;
     private Button buttonLocation,confirmDanger;
     private TextView textViewLocation;
     private EditText  editTextComment;
@@ -52,6 +52,7 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
 
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("Alerts");
+        reference2 = database.getReference("AlertCounter");
 
         textViewLocation = (TextView) findViewById(R.id.locationtext);
         //buttonLocation = (Button) findViewById(R.id.locationButton);
@@ -100,6 +101,7 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
                     editTextComment.requestFocus();
                     return;
                 }
+
                 progressBar.setVisibility(View.VISIBLE);
                 Alert alert = new Alert(comment,time,address,dangerType);
                 reference.setValue(alert).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -115,6 +117,9 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
                         }
                     }
                 });
+                UserCounterAlerts userCounterAlerts = new UserCounterAlerts();
+                int count = 0;
+                /*reference2.child('mike').update({'dateOfBirth': moment(value.dateOfBirth).toDate().getTime()});*/
 
                 textViewLocation.setText(address);
             } catch (Exception e) {
