@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.sql.Timestamp;
@@ -36,7 +37,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class NotifyActivity extends AppCompatActivity implements LocationListener, AdapterView.OnItemSelectedListener {
-    private FirebaseDatabase db;
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
     private Button buttonLocation,confirmDanger;
     private TextView textViewLocation;
     private EditText  editTextComment;
@@ -47,6 +49,9 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notify);
+
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference("Alerts");
 
         textViewLocation = (TextView) findViewById(R.id.locationtext);
         buttonLocation = (Button) findViewById(R.id.locationButton);
@@ -104,7 +109,20 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
                     return;
                 }
                 progressBar.setVisibility(View.VISIBLE);
-
+                Alert alert = new Alert(comment,time,address,dangerType);
+                reference.setValue(alert).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(NotifyActivity.this,"Alert has been successfully submitted!",Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
+                        }
+                        else{
+                            Toast.makeText(NotifyActivity.this, "Failed to submit! Try Again!", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }
+                });
 
                 textViewLocation.setText(address);
             } catch (Exception e) {

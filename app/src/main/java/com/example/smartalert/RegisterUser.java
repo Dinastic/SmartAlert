@@ -128,7 +128,7 @@ public class RegisterUser extends AppCompatActivity implements AdapterView.OnIte
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
-                                                Toast.makeText(RegisterUser.this,"User has been registerd successfully!",Toast.LENGTH_LONG).show();
+                                                Toast.makeText(RegisterUser.this,"User has been registered successfully!",Toast.LENGTH_LONG).show();
                                                 progressBar.setVisibility(View.GONE);
                                             }
                                             else{
