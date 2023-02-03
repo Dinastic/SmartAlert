@@ -29,10 +29,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -117,11 +121,29 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
                         }
                     }
                 });
-                UserCounterAlerts userCounterAlerts = new UserCounterAlerts();
-                int count = 0;
-                /*reference2.child('mike').update({'dateOfBirth': moment(value.dateOfBirth).toDate().getTime()});*/
+                reference2.child(alert.address+"/count").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String counter ="";
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            counter = dataSnapshot.getValue(String.class);
 
-                textViewLocation.setText(address);
+                        }
+                        textViewLocation.setText(counter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+                /*HashMap counter = new HashMap<>();
+                counter.put("count",userCounterAlerts.count);
+                reference2.child(alert.address);*/
+
+                /*textViewLocation.setText(address);*/
             } catch (Exception e) {
                 e.printStackTrace();
             }
