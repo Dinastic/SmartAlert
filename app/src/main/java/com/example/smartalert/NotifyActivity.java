@@ -121,15 +121,59 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
                         }
                     }
                 });
-                reference2.child(alert.address+"/count").addValueEventListener(new ValueEventListener() {
+
+                UserCounterAlerts userCounterAlerts = new UserCounterAlerts(alert.address,0,alert.time,alert.dangerType);
+                reference2.child(alert.address).addValueEventListener(new ValueEventListener() {
+                    //Se kainoyria diefthinsh to reference2 prepei na elegxetai etsi wste na tsekaroume an iparxei hdh to location afto ston pinaka pou metrame.
+                    //Prepei na psaksoume giati kanei synexeia ++ sto counter mas.
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String counter ="";
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            counter = dataSnapshot.getValue(String.class);
+                        String flag;
+                        snapshot.getChildren();
+                        flag = snapshot.child("count").getValue().toString();
 
+                        if (flag.equals("")){
+                            reference2.child(userCounterAlerts.address).setValue(userCounterAlerts).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(NotifyActivity.this,"Counter completed!",Toast.LENGTH_LONG).show();
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                    else{
+                                        Toast.makeText(NotifyActivity.this, "Failed to count! Try Again!", Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                }
+                            });
+                        }else {
+                            HashMap counter = new HashMap<>();
+                            counter.put("count",Integer.valueOf(flag) + 1);
+                            counter.put("dangerType",userCounterAlerts.dangerType);
+                            counter.put("time",userCounterAlerts.time);
+                            reference2.child(userCounterAlerts.address).updateChildren(counter).addOnCompleteListener(new OnCompleteListener() {
+                                @Override
+                                public void onComplete(@NonNull Task task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(NotifyActivity.this,"Update completed!",Toast.LENGTH_LONG).show();
+                                        progressBar.setVisibility(View.GONE);
+
+                                    }
+                                    else{
+                                        Toast.makeText(NotifyActivity.this, "Failed to update! Try Again!", Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.GONE);
+
+                                    }
+                                }
+                            });
                         }
-                        textViewLocation.setText(counter);
+
+                        /*for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            counter = (int) snapshot.child("count").getValue();
+                            *//*textViewLocation.setText(snapshot.child("count").getValue().toString());*//*
+
+                        }*/
+
                     }
 
                     @Override
