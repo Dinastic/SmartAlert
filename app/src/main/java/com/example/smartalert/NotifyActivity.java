@@ -94,18 +94,19 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
                 List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
 
                 //Initializes variables for inserting into Database.
-                String address = addresses.get(0).getAddressLine(0);
+                String address = addresses.get(0).getAddressLine(0).replace("."," ");
+                String city = addresses.get(0).getLocality();
                 String comment = editTextComment.getText().toString().trim();
                 String dangerType = spinner.getSelectedItem().toString();
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                 String time = timestamp.toString();
+                System.out.println(city);
 
                 if(comment.isEmpty()){
                     editTextComment.setError("Say something!");
                     editTextComment.requestFocus();
                     return;
                 }
-
                 progressBar.setVisibility(View.VISIBLE);
                 Alert alert = new Alert(comment,time,address,dangerType);
                 reference.child(alert.address).setValue(alert).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -122,18 +123,13 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
                     }
                 });
 
-                UserCounterAlerts userCounterAlerts = new UserCounterAlerts(alert.address,0,alert.time,alert.dangerType);
-                reference2.child(alert.address).addValueEventListener(new ValueEventListener() {
-                    //Se kainoyria diefthinsh to reference2 prepei na elegxetai etsi wste na tsekaroume an iparxei hdh to location afto ston pinaka pou metrame.
-                    //Prepei na psaksoume giati kanei synexeia ++ sto counter mas.
+                UserCounterAlerts userCounterAlerts = new UserCounterAlerts(city,1,alert.time,alert.dangerType);
+                //An DEN iparxei afto to alert ston pinaka AlertCounter tote ftiaxnei kainourio
+                reference2.child(city).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String flag;
-                        snapshot.getChildren();
-                        flag = snapshot.child("count").getValue().toString();
-
-                        if (flag.equals("")){
-                            reference2.child(userCounterAlerts.address).setValue(userCounterAlerts).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        if(!snapshot.exists()) {
+                            reference2.child(city).setValue(userCounterAlerts).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
@@ -146,53 +142,59 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
                                     }
                                 }
                             });
-                        }else {
-                            HashMap counter = new HashMap<>();
-                            counter.put("count",Integer.valueOf(flag) + 1);
-                            counter.put("dangerType",userCounterAlerts.dangerType);
-                            counter.put("time",userCounterAlerts.time);
-                            reference2.child(userCounterAlerts.address).updateChildren(counter).addOnCompleteListener(new OnCompleteListener() {
-                                @Override
-                                public void onComplete(@NonNull Task task) {
-                                    if(task.isSuccessful()){
-                                        Toast.makeText(NotifyActivity.this,"Update completed!",Toast.LENGTH_LONG).show();
-                                        progressBar.setVisibility(View.GONE);
-
-                                    }
-                                    else{
-                                        Toast.makeText(NotifyActivity.this, "Failed to update! Try Again!", Toast.LENGTH_SHORT).show();
-                                        progressBar.setVisibility(View.GONE);
-
-                                    }
-                                }
-                            });
                         }
-
-                        /*for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            counter = (int) snapshot.child("count").getValue();
-                            *//*textViewLocation.setText(snapshot.child("count").getValue().toString());*//*
-
-                        }*/
-
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
+                //An iparxei tote prepei na ginei update
+                reference2.child(city).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String count = "";
+                        snapshot.getChildren();
+                        HashMap counter = new HashMap<>();
 
+                        if (!snapshot.exists()){
+                            counter.put("count",1);
+                            counter.put("dangerType",userCounterAlerts.dangerType);
+                            counter.put("time",userCounterAlerts.time);
 
-                /*HashMap counter = new HashMap<>();
-                counter.put("count",userCounterAlerts.count);
-                reference2.child(alert.address);*/
+                        }
+                        else{
+                            count = snapshot.child("count").getValue().toString();
+                            counter.put("count",Integer.valueOf(count) + 1);
+                            counter.put("dangerType",userCounterAlerts.dangerType);
+                            counter.put("time",userCounterAlerts.time);
+                        }
+                        reference2.child(city).updateChildren(counter).addOnCompleteListener(new OnCompleteListener() {
+                            @Override
+                            public void onComplete(@NonNull Task task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(NotifyActivity.this,"Update completed!",Toast.LENGTH_LONG).show();
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                                else{
+                                    Toast.makeText(NotifyActivity.this, "Failed to update! Try Again!", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            }
+                        });
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                /*textViewLocation.setText(address);*/
+                    }
+                });
             } catch (Exception e) {
                 e.printStackTrace();
+                Toast.makeText(NotifyActivity.this,"Failed1",Toast.LENGTH_LONG).show();
             }
         }catch(Exception e){
             e.printStackTrace();
+            Toast.makeText(NotifyActivity.this,"Failed2",Toast.LENGTH_LONG).show();
         }
     }
 
