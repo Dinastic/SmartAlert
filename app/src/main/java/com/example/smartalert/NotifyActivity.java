@@ -36,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -100,7 +101,8 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
                 String dangerType = spinner.getSelectedItem().toString();
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                 String time = timestamp.toString();
-                System.out.println(city);
+                LocalDate localDate = LocalDate.now();
+                String date = localDate.toString();
 
                 if(comment.isEmpty()){
                     editTextComment.setError("Say something!");
@@ -123,13 +125,13 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
                     }
                 });
 
-                UserCounterAlerts userCounterAlerts = new UserCounterAlerts(city,1,alert.time,alert.dangerType);
+                UserCounterAlerts userCounterAlerts = new UserCounterAlerts(1,alert.time,alert.dangerType);
                 //An DEN iparxei afto to alert ston pinaka AlertCounter tote ftiaxnei kainourio
                 reference2.child(city).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(!snapshot.exists()) {
-                            reference2.child(city).setValue(userCounterAlerts).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            reference2.child(city).child(date).setValue(userCounterAlerts).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
@@ -150,7 +152,7 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
                     }
                 });
                 //An iparxei tote prepei na ginei update
-                reference2.child(city).addListenerForSingleValueEvent(new ValueEventListener() {
+                reference2.child(city).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String count = "";
@@ -161,7 +163,6 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
                             counter.put("count",1);
                             counter.put("dangerType",userCounterAlerts.dangerType);
                             counter.put("time",userCounterAlerts.time);
-
                         }
                         else{
                             count = snapshot.child("count").getValue().toString();
@@ -169,7 +170,7 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
                             counter.put("dangerType",userCounterAlerts.dangerType);
                             counter.put("time",userCounterAlerts.time);
                         }
-                        reference2.child(city).updateChildren(counter).addOnCompleteListener(new OnCompleteListener() {
+                        reference2.child(city).child(date).updateChildren(counter).addOnCompleteListener(new OnCompleteListener() {
                             @Override
                             public void onComplete(@NonNull Task task) {
                                 if(task.isSuccessful()){
