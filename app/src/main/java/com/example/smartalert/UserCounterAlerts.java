@@ -5,7 +5,7 @@ public class UserCounterAlerts {
     public int count;
     public String time;
     public String dangerType;
-    public UserCounterAlerts(){
+    public UserCounterAlerts(String address){
 
     }
     public UserCounterAlerts( int count, String time, String dangerType){

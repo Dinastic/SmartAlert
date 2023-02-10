@@ -2,9 +2,20 @@ package com.example.smartalert;
 
 public class Alert {
     public String comment, time, address, dangerType;
-
     public Alert(){
 
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public String getDangerType() {
+        return dangerType;
     }
     public Alert(String comment, String time, String address, String dangerType){
         this.comment = comment;
