@@ -28,17 +28,31 @@ public class CheckActivity extends AppCompatActivity {
 
 
     RecyclerView recyclerView;
-    DatabaseReference database;
+    DatabaseReference reference;
     MyAdapter myAdapter;
-    ArrayList<Alert> list;
+    ArrayList<UserCounterAlerts> list;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check);
+
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()){
+                    return;
+                }
+                //Get new FCM registration token
+                String token = task.getResult();
+
+            }
+        });
+
+
         recyclerView = findViewById(R.id.myList);
-        database = FirebaseDatabase.getInstance().getReference("Alerts");
+        reference = FirebaseDatabase.getInstance().getReference("AlertCounter");
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -49,19 +63,19 @@ public class CheckActivity extends AppCompatActivity {
 
 
 
-        database.addValueEventListener(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                String s;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
-                    Alert alert = dataSnapshot.getValue(Alert.class);
-                    list.add(alert);
-
-
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
+                        UserCounterAlerts alert = dataSnapshot1.getValue(UserCounterAlerts.class);
+                        /*s = dataSnapshot.getValue().toString();*/
+                        list.add(alert);
+                        /*Log.d("HELP", s);*/
+                    }
                 }
                 myAdapter.notifyDataSetChanged();
-
             }
 
             @Override

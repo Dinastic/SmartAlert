@@ -125,7 +125,7 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
                     }
                 });
 
-                UserCounterAlerts userCounterAlerts = new UserCounterAlerts(1,alert.time,alert.dangerType);
+                UserCounterAlerts userCounterAlerts = new UserCounterAlerts(1,alert.time,alert.dangerType,city);
                 //An DEN iparxei afto to alert ston pinaka AlertCounter tote ftiaxnei kainourio
                 reference2.child(city).addValueEventListener(new ValueEventListener() {
                     @Override
@@ -163,12 +163,14 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
                             counter.put("count",1);
                             counter.put("dangerType",userCounterAlerts.dangerType);
                             counter.put("time",userCounterAlerts.time);
+                            counter.put("city",userCounterAlerts.city);
                         }
                         else{
                             count = snapshot.child("count").getValue().toString();
                             counter.put("count",Integer.valueOf(count) + 1);
                             counter.put("dangerType",userCounterAlerts.dangerType);
                             counter.put("time",userCounterAlerts.time);
+                            counter.put("city",userCounterAlerts.city);
                         }
                         reference2.child(city).child(date).updateChildren(counter).addOnCompleteListener(new OnCompleteListener() {
                             @Override

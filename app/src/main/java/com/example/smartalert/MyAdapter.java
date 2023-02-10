@@ -15,10 +15,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     Context context;
 
-    ArrayList<Alert> list;
+    ArrayList<UserCounterAlerts> list;
 
 
-    public MyAdapter(Context context, ArrayList<Alert> list) {
+    public MyAdapter(Context context, ArrayList<UserCounterAlerts> list) {
         this.context = context;
         this.list = list;
     }
@@ -33,12 +33,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        Alert alert = list.get(position);
-        holder.dangerType.setText(alert.getDangerType());
-        holder.time.setText(alert.getTime());
-        holder.address.setText(alert.getAddress());
-
-
+        UserCounterAlerts alert = list.get(position);
+        holder.dangerType.setText(alert.dangerType);
+        holder.time.setText(alert.time);
+        holder.address.setText(alert.city);
     }
 
     @Override
