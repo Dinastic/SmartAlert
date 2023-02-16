@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.cardview.widget.CardView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,6 +39,7 @@ public class CheckActivity extends AppCompatActivity {
 
 
 
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +54,11 @@ public class CheckActivity extends AppCompatActivity {
         list = new ArrayList<>();
         myAdapter = new MyAdapter(this,list);
         recyclerView.setAdapter(myAdapter);
-
         notifyButton = (Button) findViewById(R.id.notifyButton);
-        deleteButton = (Button) findViewById(R.id.deleteButton);
+        FirebaseMessaging.getInstance().subscribeToTopic("all");
 
         reference.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String s;
@@ -65,6 +68,15 @@ public class CheckActivity extends AppCompatActivity {
                         /*s = dataSnapshot.getValue().toString();*/
                         list.add(alert);
                         /*Log.d("HELP", s);*/
+
+                        notifyButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                FcmNotificationsSender notificationsSender= new FcmNotificationsSender("/topics/all", alert.city,getApplicationContext(),CheckActivity.this);
+                                notificationsSender.SendNotifications();
+
+                            }
+                        });
                     }
                 }
                 myAdapter.notifyDataSetChanged();
