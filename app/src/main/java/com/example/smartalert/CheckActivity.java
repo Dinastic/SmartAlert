@@ -40,6 +40,7 @@ public class CheckActivity extends AppCompatActivity {
 
 
 
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,27 +60,29 @@ public class CheckActivity extends AppCompatActivity {
 
         reference.addValueEventListener(new ValueEventListener() {
 
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String s;
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                        UserCounterAlerts alert = dataSnapshot1.getValue(UserCounterAlerts.class);
-                        /*s = dataSnapshot.getValue().toString();*/
-                        list.add(alert);
-                        /*Log.d("HELP", s);*/
-
-                        notifyButton.setOnClickListener(new View.OnClickListener() {
+               String s;
+               for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                   for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
+                      UserCounterAlerts alert = dataSnapshot1.getValue(UserCounterAlerts.class);
+                       /*s = dataSnapshot.getValue().toString();*/
+                       list.add(alert);
+                       /*Log.d("HELP", s);*/
+                       /*notifyButton.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(View view) {
-                                FcmNotificationsSender notificationsSender= new FcmNotificationsSender("/topics/all", alert.city,getApplicationContext(),CheckActivity.this);
-                                notificationsSender.SendNotifications();
+                           public void onClick(View view) {
+                               FcmNotificationsSender notificationsSender= new FcmNotificationsSender("/topics/all", alert.city,getApplicationContext(),CheckActivity.this);
+                               notificationsSender.SendNotifications();
 
-                            }
-                        });
+                           }
+                       });*/
+
                     }
                 }
                 myAdapter.notifyDataSetChanged();
+
             }
 
             @Override
