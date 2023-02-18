@@ -3,6 +3,7 @@ package com.example.smartalert;
 import static android.app.PendingIntent.getActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     DatabaseReference reference;
     CheckActivity checkActivity;
 
+
     ArrayList<UserCounterAlerts> list;
 
 
@@ -34,10 +36,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         this.context = context;
         this.list = list;
     }
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View v = LayoutInflater.from(context).inflate(R.layout.item,parent,false);
         return  new MyViewHolder(v);
     }
@@ -50,6 +52,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.dangerType.setText(alert.dangerType);
         holder.time.setText(alert.time);
         holder.address.setText(alert.city);
+
         reference.addValueEventListener(new ValueEventListener() {
 
 
@@ -62,14 +65,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                         /*s = dataSnapshot.getValue().toString();*/
                         //list.add(alert);
                         /*Log.d("HELP", s);*/
-                        holder.notifyButton.setOnClickListener(new View.OnClickListener() {
+                        /*holder.notifyButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                FcmNotificationsSender notificationsSender= new FcmNotificationsSender("/topics/all", alert.city,view.getContext(),checkActivity);
+                                FcmNotificationsSender notificationsSender= new FcmNotificationsSender("/topics/all", alert.city.toString(),view.getContext(),checkActivity);
                                 notificationsSender.SendNotifications();
 
+
                             }
-                        });
+                        });*/
+
+
 
                     }
                 }
@@ -91,13 +97,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-        public Button notifyButton;
+        Button notifyButton;
         TextView dangerType, time, address;
 
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            notifyButton = (Button) itemView.findViewById(R.id.notifyButton);
+           // notifyButton = itemView.findViewById(R.id.helloButton);
             dangerType = itemView.findViewById(R.id.specificDanger);
             time = itemView.findViewById(R.id.specificTime);
             address = itemView.findViewById(R.id.specificAddress);

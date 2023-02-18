@@ -9,8 +9,11 @@ import androidx.cardview.widget.CardView;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,19 +38,31 @@ public class CheckActivity extends AppCompatActivity {
     DatabaseReference reference;
     MyAdapter myAdapter;
     ArrayList<UserCounterAlerts> list;
-    Button notifyButton , deleteButton ;
+
+    EditText positionNot,positionDel;
+
+    Button notifyButton,deleteButton;
+
+    int notifyByPosition,deleteByPosition;
 
 
 
 
 
-    @SuppressLint("MissingInflatedId")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check);
 
+
+
         recyclerView = findViewById(R.id.myList);
+        positionNot = findViewById(R.id.notifyText);
+        positionDel = findViewById(R.id.deleteText);
+        notifyButton = (Button)findViewById(R.id.notifyButton);
+        deleteButton = (Button)findViewById(R.id.deleteButton);
+
         reference = FirebaseDatabase.getInstance().getReference("AlertCounter");
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -55,8 +70,11 @@ public class CheckActivity extends AppCompatActivity {
         list = new ArrayList<>();
         myAdapter = new MyAdapter(this,list);
         recyclerView.setAdapter(myAdapter);
-        notifyButton = (Button) findViewById(R.id.notifyButton);
         FirebaseMessaging.getInstance().subscribeToTopic("all");
+
+
+
+
 
         reference.addValueEventListener(new ValueEventListener() {
 
@@ -69,15 +87,29 @@ public class CheckActivity extends AppCompatActivity {
                       UserCounterAlerts alert = dataSnapshot1.getValue(UserCounterAlerts.class);
                        /*s = dataSnapshot.getValue().toString();*/
                        list.add(alert);
-                       /*Log.d("HELP", s);*/
-                       /*notifyButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
+
+                       notifyButton.setOnClickListener(new View.OnClickListener() {
+                           @Override
                            public void onClick(View view) {
-                               FcmNotificationsSender notificationsSender= new FcmNotificationsSender("/topics/all", alert.city,getApplicationContext(),CheckActivity.this);
+                               Log.d("HELP2", alert.city);
+                               notifyByPosition=Integer.parseInt(positionNot.getText().toString());
+
+                               FcmNotificationsSender notificationsSender= new FcmNotificationsSender("fv8thADcTLuQYxQO4A-kVg:APA91bHg4iyMujmtr6GwzFMj5kx_VvwaXdxuBUpicavHCVxw_0ZFabMwTqmu0SW4gRfMngv7AOxfVAjkgCyUHTNyOk-EFI6qj31WMkE8ia_Pf8zfOOCmK3n6Ou-Ea0b8JiAbkF0va50B", alert.city,getApplicationContext(),CheckActivity.this);
                                notificationsSender.SendNotifications();
 
                            }
-                       });*/
+                       });
+
+                       deleteButton.setOnClickListener(new View.OnClickListener() {
+                           @Override
+                           public void onClick(View view) {
+                               deleteByPosition=Integer.parseInt(positionDel.getText().toString());
+                               deleteMyItem(deleteByPosition);
+                               myAdapter.notifyItemRemoved(deleteByPosition);
+
+                           }
+                       });
+
 
                     }
                 }
@@ -90,6 +122,9 @@ public class CheckActivity extends AppCompatActivity {
 
             }
         });
+    }
+    public void deleteMyItem(int deleteByPosition){
+        list.remove(deleteByPosition);
     }
 }
 
