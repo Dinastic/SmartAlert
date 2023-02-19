@@ -23,14 +23,10 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-
     Context context;
     DatabaseReference reference;
     CheckActivity checkActivity;
-
-
     ArrayList<UserCounterAlerts> list;
-
 
     public MyAdapter(Context context, ArrayList<UserCounterAlerts> list) {
         this.context = context;
@@ -52,43 +48,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.dangerType.setText(alert.dangerType);
         holder.time.setText(alert.time);
         holder.address.setText(alert.city);
-
-        reference.addValueEventListener(new ValueEventListener() {
-
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String s;
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                        UserCounterAlerts alert = dataSnapshot1.getValue(UserCounterAlerts.class);
-                        /*s = dataSnapshot.getValue().toString();*/
-                        //list.add(alert);
-                        /*Log.d("HELP", s);*/
-                        /*holder.notifyButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                FcmNotificationsSender notificationsSender= new FcmNotificationsSender("/topics/all", alert.city.toString(),view.getContext(),checkActivity);
-                                notificationsSender.SendNotifications();
-
-
-                            }
-                        });*/
-
-
-
-                    }
-                }
-                notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
     }
 
     @Override
@@ -99,7 +58,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         Button notifyButton;
         TextView dangerType, time, address;
-
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);

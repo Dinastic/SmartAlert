@@ -29,26 +29,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class CheckActivity extends AppCompatActivity {
-
 
     RecyclerView recyclerView;
     DatabaseReference reference;
     MyAdapter myAdapter;
     ArrayList<UserCounterAlerts> list;
+    ArrayList<String> listCities,listDangers,listDates;
 
     EditText positionNot,positionDel;
 
     Button notifyButton,deleteButton;
 
     int notifyByPosition,deleteByPosition;
-
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,33 +64,35 @@ public class CheckActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         list = new ArrayList<>();
+        listCities = new ArrayList<>();
+        listDangers = new ArrayList<>();
+        listDates = new ArrayList<>();
         myAdapter = new MyAdapter(this,list);
         recyclerView.setAdapter(myAdapter);
         FirebaseMessaging.getInstance().subscribeToTopic("all");
-
-
-
-
-
+        LocalDate localDate = LocalDate.now();
+        String date = localDate.toString();
         reference.addValueEventListener(new ValueEventListener() {
 
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-               String s;
                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
                       UserCounterAlerts alert = dataSnapshot1.getValue(UserCounterAlerts.class);
-                       /*s = dataSnapshot.getValue().toString();*/
-                       list.add(alert);
+                      if(date.equals(alert.time.substring(0, 10)) && alert.count > 3){
+                          list.add(alert);
+                          listCities.add(alert.city);
+                          listDangers.add(alert.dangerType);
+                          listDates.add(alert.time.substring(0,10));
+                      }
 
                        notifyButton.setOnClickListener(new View.OnClickListener() {
                            @Override
                            public void onClick(View view) {
-                               Log.d("HELP2", alert.city);
                                notifyByPosition=Integer.parseInt(positionNot.getText().toString());
-
-                               FcmNotificationsSender notificationsSender= new FcmNotificationsSender("fv8thADcTLuQYxQO4A-kVg:APA91bHg4iyMujmtr6GwzFMj5kx_VvwaXdxuBUpicavHCVxw_0ZFabMwTqmu0SW4gRfMngv7AOxfVAjkgCyUHTNyOk-EFI6qj31WMkE8ia_Pf8zfOOCmK3n6Ou-Ea0b8JiAbkF0va50B", alert.city,getApplicationContext(),CheckActivity.this);
+                               Log.d("HELP2",listDates.get(notifyByPosition));
+                               FcmNotificationsSender notificationsSender= new FcmNotificationsSender("fv8thADcTLuQYxQO4A-kVg:APA91bHg4iyMujmtr6GwzFMj5kx_VvwaXdxuBUpicavHCVxw_0ZFabMwTqmu0SW4gRfMngv7AOxfVAjkgCyUHTNyOk-EFI6qj31WMkE8ia_Pf8zfOOCmK3n6Ou-Ea0b8JiAbkF0va50B","DANGER","Be careful there is " + listDangers.get(notifyByPosition) +" near "+listCities.get(notifyByPosition),getApplicationContext(),CheckActivity.this);
                                notificationsSender.SendNotifications();
 
                            }
