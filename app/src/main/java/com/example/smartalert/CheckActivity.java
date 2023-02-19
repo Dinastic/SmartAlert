@@ -92,7 +92,7 @@ public class CheckActivity extends AppCompatActivity {
                            public void onClick(View view) {
                                notifyByPosition=Integer.parseInt(positionNot.getText().toString());
                                Log.d("HELP2",listDates.get(notifyByPosition));
-                               FcmNotificationsSender notificationsSender= new FcmNotificationsSender("fv8thADcTLuQYxQO4A-kVg:APA91bHg4iyMujmtr6GwzFMj5kx_VvwaXdxuBUpicavHCVxw_0ZFabMwTqmu0SW4gRfMngv7AOxfVAjkgCyUHTNyOk-EFI6qj31WMkE8ia_Pf8zfOOCmK3n6Ou-Ea0b8JiAbkF0va50B","DANGER","Be careful there is " + listDangers.get(notifyByPosition) +" near "+listCities.get(notifyByPosition),getApplicationContext(),CheckActivity.this);
+                               FcmNotificationsSender notificationsSender= new FcmNotificationsSender("/topics/all","DANGER","Be careful there is " + listDangers.get(notifyByPosition) +" near "+listCities.get(notifyByPosition),getApplicationContext(),CheckActivity.this);
                                notificationsSender.SendNotifications();
 
                            }
