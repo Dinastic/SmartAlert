@@ -36,8 +36,6 @@ public class FcmNotificationsSender  {
         this.body = body;
         this.context = context;
         this.activity = activity;
-
-
     }
 
     public void SendNotifications() {
@@ -60,13 +58,10 @@ public class FcmNotificationsSender  {
                 @Override
                 public void onResponse(JSONObject response) {
 
-                    // code run is got response
-
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    // code run is got error
 
                 }
             }) {
@@ -78,8 +73,6 @@ public class FcmNotificationsSender  {
                     header.put("content-type", "application/json");
                     header.put("authorization", "key=" + fcmServerKey);
                     return header;
-
-
                 }
             };
             requestQueue.add(request);

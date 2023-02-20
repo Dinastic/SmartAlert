@@ -43,7 +43,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         reference = FirebaseDatabase.getInstance().getReference("AlertCounter");
-        FirebaseMessaging.getInstance().subscribeToTopic("all");
+
         UserCounterAlerts alert = list.get(position);
         holder.dangerType.setText(alert.dangerType);
         holder.time.setText(alert.time);

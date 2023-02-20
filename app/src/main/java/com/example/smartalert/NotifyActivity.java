@@ -34,6 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -60,7 +61,7 @@ public class NotifyActivity extends AppCompatActivity implements LocationListene
         reference2 = database.getReference("AlertCounter");
 
         textViewLocation = (TextView) findViewById(R.id.locationtext);
-        //buttonLocation = (Button) findViewById(R.id.locationButton);
+
         confirmDanger = (Button) findViewById(R.id.confirmDanger);
 
         editTextComment = (EditText) findViewById(R.id.comment);

@@ -25,16 +25,14 @@ import androidx.core.app.NotificationManagerCompat;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
-
      NotificationManager mNotificationManager;
-
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
 
-// playing audio and vibration when user se request
+        // playing audio and vibration when user se request
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
         r.play();
@@ -47,25 +45,17 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         long[] pattern = {100, 300, 300, 300};
         v.vibrate(pattern, -1);
 
-
         int resourceImage = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
-
-
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            builder.setSmallIcon(R.drawable.icontrans);
             builder.setSmallIcon(R.drawable.icon);
         } else {
-//            builder.setSmallIcon(R.drawable.icon_kritikar);
             builder.setSmallIcon(R.drawable.icon);
         }
 
-
-
         Intent resultIntent = new Intent(this, CheckActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
 
         builder.setContentTitle(remoteMessage.getNotification().getTitle());
         builder.setContentText(remoteMessage.getNotification().getBody());
@@ -76,9 +66,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         mNotificationManager =
                 (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-
-
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
@@ -91,14 +78,9 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             builder.setChannelId(channelId);
         }
 
-
-
-// notificationId is a unique int for each notification that you must define
+        // notificationId is a unique int for each notification that you must define
         mNotificationManager.notify(100, builder.build());
-
-
     }
-
 }
 
 

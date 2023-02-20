@@ -5,18 +5,6 @@ public class Alert {
     public Alert(){
 
     }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public String getDangerType() {
-        return dangerType;
-    }
     public Alert(String comment, String time, String address, String dangerType){
         this.comment = comment;
         this.time = time;
